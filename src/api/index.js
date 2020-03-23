@@ -56,12 +56,58 @@ export const navList = (params) => {
 export const recommend = (params) => {
   return http.fetchGet('/products/recommend', params)
 }
-// 捐赠板块
-export const thank = (params) => {
-  return http.fetchGet('/products/thank', params)
+// // 捐赠板块
+// export const thank = (params) => {
+//   return http.fetchGet('/products/thank', params)
+// }
+// // 极验验证码
+// export const geetest = (params) => {
+//   return http.fetchGet('/user/geetestInit?t=' + (new Date()).getTime(), params)
+// }
+
+export const listGoods = (params) => {
+  return http.fetchGet(`${baseUrl}/products`, params)
 }
-// 极验验证码
-export const geetest = (params) => {
-  return http.fetchGet('/user/geetestInit?t=' + (new Date()).getTime(), params)
+export const deleteGoods = (params) => {
+  return http.fetchGet('/products/recommend', params)
 }
+// export function deleteGoods(data) {
+//   return request({
+//     url: '/goods/delete',
+//     method: 'post',
+//     data
+//   })
+// }
+
+// export function publishGoods(data) {
+//   return request({
+//     url: '/goods/create',
+//     method: 'post',
+//     data
+//   })
+// }
+
+// export function detailGoods(id) {
+//   return request({
+//     url: '/goods/detail',
+//     method: 'get',
+//     params: { id }
+//   })
+// }
+
+// export function editGoods(data) {
+//   return request({
+//     url: '/goods/update',
+//     method: 'post',
+//     data
+//   })
+// }
+
+// export function listCatAndBrand() {
+//   return request({
+//     url: '/goods/catAndBrand',
+//     method: 'get'
+//   })
+// }
+
 

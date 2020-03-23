@@ -9,7 +9,6 @@ axios.interceptors.request.use(config => {
     // console.log(window.sessionStorage.getItem('token'))
     config.headers.Authorization = window.sessionStorage.getItem('token')
   }
-  
   // 在最后必须 return config
   return config
 })

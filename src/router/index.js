@@ -7,6 +7,9 @@ import Error from '../components/Errror.vue'
 import Welcome from '../components/Welcome.vue'
 import Users from '../components/user/Users.vue'
 import AddUser from '../components/user/AddUser.vue'
+import goodList from '../components/goods/list.vue'
+import addGood from '../components/goods/create.vue'
+import editGood from '../components/goods/edit.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,15 +31,33 @@ const routes = [
       path: '/welcome',
       name: 'Welcome',
       component: Welcome
-    },{
+    },
+    {
       path: '/user/list',
       name: 'Users',
       component: Users
-    },{
+    },
+    {
       path: '/user/add',
       name: 'AddUser',
       component: AddUser
-    }]
+    },
+    {
+      path: '/product/list',
+      name: 'goodList',
+      component: goodList
+    },
+    {
+      path: '/product/add',
+      name: 'addGood',
+      component: addGood
+    },
+    {
+      path: '/product/edit',
+      name: 'editGood',
+      component: editGood
+    }
+  ]
   },
   {
     path: '/error',

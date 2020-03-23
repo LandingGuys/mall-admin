@@ -8,7 +8,7 @@ module.exports = {
 
   dev: {
     env: require('./dev.env'),
-    port: 9999,
+    port: 7777,
     // Paths
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
