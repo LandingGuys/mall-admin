@@ -2,112 +2,61 @@ import http from './public'
 const baseUrl = '/api'
 // 登陆
 export const userLogin = (params) => {
-  return http.fetchPost(`${baseUrl}/user/login`, params)
+  return http.fetchPost(`${baseUrl}/admin/user/login`, params)
 }
 // 退出登陆
 export const loginOut = () => {
-  return http.fetchPost(`${baseUrl}/user/logout`)
+  return http.fetchPost(`${baseUrl}/admin/user/logout`)
+}
+export const getUserInfo = (params) => {
+  return http.fetchGet(`${baseUrl}/admin/user`, params)
 }
 // 获取用户列表
 export const getUserListByCondition = (params) => {
-  return http.fetchPost(`${baseUrl}/user/list`, params)
+  return http.fetchPost(`${baseUrl}/admin/user/list`, params)
 }
 // 添加用户
 export const userAdd = (params) => {
-  return http.fetchPost(`${baseUrl}/user/add`, params)
+  return http.fetchPost(`${baseUrl}/admin/user/add`, params)
 }
 // 修改用户
 export const userEdit = (params) => {
-  return http.fetchPut(`${baseUrl}/user/`+params.id, params)
+  return http.fetchPut(`${baseUrl}/admin/user/`+params.id, params)
 }
 // 获取用户信息
 export const userInfo = (params) => {
-  return http.fetchGet(`${baseUrl}/user/`+params.id, params)
+  return http.fetchGet(`${baseUrl}/admin/user/`+params.id, params)
 }
 // 删除用户信息
 export const userDelete = (params) => {
-  return http.fetchDelete(`${baseUrl}/user/`+params.id, params)
+  return http.fetchDelete(`${baseUrl}/admin/user/`+params.id, params)
 }
-// 注册账号
-export const register = (params) => {
-  return http.fetchPost('/user/register', params)
+// 获取商品列表
+export const listGoods = (params) => {
+  return http.fetchGet(`${baseUrl}/admin/products`, params)
+}
+// 删除商品
+export const deleteGoods = (params) => {
+  return http.fetchDelete(`${baseUrl}/admin/products`, params)
 }
 // 上传图片
 export const upload = (params) => {
-  return http.fetchPost('/user/imgaeUpload', params)
+  return http.fetchUpload(`${baseUrl}/file/upload`, params)
 }
-// 修改头像
-export const updateheadimage = (params) => {
-  return http.fetchPost('/user/updateheadimage', params)
-}
-// 捐赠列表
-export const thanksList = (params) => {
-  return http.fetchGet('/user/thanks', params)
-}
-// 首页接口
-export const productHome = (params) => {
-  return http.fetchGet('/products/home', params)
-}
-// 首页接口
-export const navList = (params) => {
-  return http.fetchGet('/products/navList', params)
-}
-// 推荐板块
-export const recommend = (params) => {
-  return http.fetchGet('/products/recommend', params)
-}
-// // 捐赠板块
-// export const thank = (params) => {
-//   return http.fetchGet('/products/thank', params)
-// }
-// // 极验验证码
-// export const geetest = (params) => {
-//   return http.fetchGet('/user/geetestInit?t=' + (new Date()).getTime(), params)
-// }
 
-export const listGoods = (params) => {
-  return http.fetchGet(`${baseUrl}/products`, params)
+export const productAdd = (params) => {
+  return http.fetchPost(`${baseUrl}/admin/products`, params)
 }
-export const deleteGoods = (params) => {
-  return http.fetchGet('/products/recommend', params)
+
+export const detailGoods = (params) => {
+  return http.fetchGet(`${baseUrl}/admin/products/` + params.id, params)
 }
-// export function deleteGoods(data) {
-//   return request({
-//     url: '/goods/delete',
-//     method: 'post',
-//     data
-//   })
-// }
-
-// export function publishGoods(data) {
-//   return request({
-//     url: '/goods/create',
-//     method: 'post',
-//     data
-//   })
-// }
-
-// export function detailGoods(id) {
-//   return request({
-//     url: '/goods/detail',
-//     method: 'get',
-//     params: { id }
-//   })
-// }
-
-// export function editGoods(data) {
-//   return request({
-//     url: '/goods/update',
-//     method: 'post',
-//     data
-//   })
-// }
-
-// export function listCatAndBrand() {
-//   return request({
-//     url: '/goods/catAndBrand',
-//     method: 'get'
-//   })
-// }
+export const productUpdate = (params) => {
+  return http.fetchPut(`${baseUrl}/admin/products/`, params)
+}
+// 获取类目列表
+export const getCategoryList = (params) => {
+  return http.fetchGet(`${baseUrl}/admin/categories`, params)
+}
 
 

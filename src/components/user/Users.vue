@@ -52,7 +52,7 @@
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="queryInfo.pageNum"
-                    :page-sizes="[6, 8, 10, 15]"
+                    :page-sizes="[10, 20, 25, 30]"
                     :page-size="queryInfo.pageSize"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
@@ -135,7 +135,7 @@
     </div>
 </template>
 <script>
-import { getUserListByCondition  , userAdd, userEdit , userInfo, userDelete } from '@/api/index.js'
+import { getUserListByCondition , userAdd, userEdit , userInfo, userDelete } from '@/api/index.js'
 import { Col } from 'element-ui'
 export default {
     data(){
@@ -167,7 +167,7 @@ export default {
            queryInfo:{
                 query: '',
                 pageNum: 1,
-                pageSize: 6    
+                pageSize: 10    
            },
            //用户 1 ,管理员0
            userlist:[],
@@ -319,7 +319,7 @@ export default {
         },
         
         async showEditDialog(id) {
-            // console.log(id)
+            //  console.log(id)
             let params ={
               id: id
             }

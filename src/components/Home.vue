@@ -8,7 +8,7 @@
       </div>
       <el-dropdown>
             <span class="el-dropdown-link">
-                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                <el-avatar :src="userinfo.avatarUrl"></el-avatar>
             </span>
             <el-dropdown-menu slot="dropdown">
             
@@ -54,16 +54,10 @@
                         <span>添加商品</span>
                     </template>
                 </el-menu-item>
-                <el-menu-item index="/product/delete">
-                    <template slot="title">
-                        <i class="el-icon-s-fold"></i>
-                        <span>删除商品</span>
-                    </template>
-                </el-menu-item>
                 <el-menu-item index="/product/sort">
                     <template slot="title">
                         <i class="el-icon-s-fold"></i>
-                        <span>商品分类</span>
+                        <span>首页轮播管理</span>
                     </template>
                 </el-menu-item>
             </el-submenu>
@@ -88,7 +82,7 @@
             <el-submenu index="4">
                 <template slot="title">
                     <i class="el-icon-user-solid"></i>
-                    <span>权限</span>
+                    <span>用户</span>
                 </template>
                 <el-menu-item index="/user/list">
                     <template slot="title">
@@ -96,12 +90,12 @@
                         <span>用户列表</span>
                     </template>
                 </el-menu-item>
-                 <el-menu-item index="/user/add">
+                 <!-- <el-menu-item index="/user/add">
                     <template slot="title">
                         <i class="el-icon-circle-plus"></i>
                         <span>添加用户</span>
                     </template>
-                </el-menu-item>
+                </el-menu-item> -->
                 
               
             </el-submenu>
@@ -122,12 +116,7 @@
                         <span>添加类目</span>
                     </template>
                 </el-menu-item>
-                <el-menu-item index="/ategory/delete">
-                    <template slot="title">
-                        <i class="el-icon-circle-plus"></i>
-                        <span>删除类目</span>
-                    </template>
-                </el-menu-item>
+               
                 
               
             </el-submenu>
@@ -152,18 +141,20 @@
        
     
 <script>
-import { loginOut } from '../api/index' 
+import { loginOut, getUserInfo} from '../api/index' 
 export default {
     data(){
         return{
-           isCollapse: false
+           isCollapse: false,
+           userinfo:{
+               avatarUrl: '',
+           }
         }
 
     },
     methods:{
         logout(){
             loginOut().then(res =>{
-                // console.log(res) 
                 window.sessionStorage.clear();
                 this.$router.push('/login'); 
             }).catch(res =>{
@@ -171,11 +162,22 @@ export default {
             })
             
         },
+        async _getUserInfo(){
+            const res = await getUserInfo()
+            if(res.status !==0){
+                this.$message.error(res.msg)
+            }
+            this.userinfo=res.data
+
+        },
         //点击按钮切换折叠
         toggleCollapse(){
             this.isCollapse = ! this.isCollapse;
         }
         
+    },
+    mounted(){
+        this._getUserInfo()
     }
 }
 </script>

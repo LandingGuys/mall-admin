@@ -11,8 +11,8 @@
             <!-- 登录表单区域 -->
             <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
             <!-- 用户名 -->
-                <el-form-item prop="username">
-                    <el-input v-model="loginForm.username" prefix-icon="iconfont icon-user"></el-input>
+                <el-form-item prop="name">
+                    <el-input v-model="loginForm.name" prefix-icon="iconfont icon-user"></el-input>
                 </el-form-item>
             <!-- 密码 -->
                 <el-form-item prop="password">
@@ -29,22 +29,21 @@
 </template>
 <script>
 import { userLogin } from '../api/index'
-import ErrorMe from '../plugins/element.js'
 export default {
    data(){
        return{
            loginForm:{
-               username: '12344',
-               password: '123456'
+               name: 'admin',
+               password: 'admin'
            },
            loginFormRules:{
-                username: [
+                name: [
                     { required: true, message: '请输入登录名称', trigger: 'blur' },
                     { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
                 ],
                 password: [
                     { required: true, message: '请输入密码', trigger: 'blur' },
-                    { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
+                    { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
                 ]
            }
        }
@@ -60,9 +59,9 @@ export default {
                 var params = this.loginForm;
                 userLogin(params).then(res =>{
                     if(res.status !== 0){
-                        return this.$message.error('登录失败')
+                        return this.$message.error(res.msg)
                     }
-                    this.$message.success('成功')
+                    // this.$message.success('成功')
                     // console.log(res)
                     // 1. 将登录成功之后的 token，保存到客户端的 sessionStorage 中
                     //   1.1 项目中出了登录之外的其他API接口，必须在登录之后才能访问

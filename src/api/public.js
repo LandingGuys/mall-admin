@@ -75,4 +75,17 @@ export default {
       })
     })
   },
+  fetchUpload(url,params = {}) {
+    return new Promise((resolve, reject) => {
+      axios.post(url, params,{
+        headers:{
+          "Content-Type": "multipart/form-data" 
+       }
+      }).then(res => {
+        resolve(res.data)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  }
 }
