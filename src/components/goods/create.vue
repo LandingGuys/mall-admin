@@ -110,13 +110,18 @@
                 <el-button @click="resetForm('form')">取消</el-button>
             </el-form-item>
             </el-form>
+
+            <el-tooltip placement="top" content="返回顶部">
+              <back-to-top :visibility-height="100" />
+            </el-tooltip>
       </el-card>
 </div>
   
 </template>
 <script>
 import { upload , productAdd, getCategoryList} from '@/api/index.js'
-import MyNumberInput from '../MyNumberInput';
+// import MyNumberInput from '../MyNumberInput';
+import BackToTop from '@/components/BackToTop'
 export default {
     data() {
       return {
@@ -321,7 +326,8 @@ export default {
         }
     },
     components:{
-      MyNumberInput
+    //   MyNumberInput
+     BackToTop ,
     }
 
 }

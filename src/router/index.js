@@ -6,10 +6,18 @@ import Home from '../components/Home.vue'
 import Error from '../components/Errror.vue'
 import Welcome from '../components/Welcome.vue'
 import Users from '../components/user/Users.vue'
-import AddUser from '../components/user/AddUser.vue'
+
 import goodList from '../components/goods/list.vue'
 import addGood from '../components/goods/create.vue'
 import editGood from '../components/goods/edit.vue'
+
+import orderList from '../components/order/list.vue'
+import orderSet from '../components/order/set.vue'
+
+import categoryEdit from '../components/category/edit.vue'
+import categoryAdd from '../components/category/create.vue'
+import categoryList from '../components/category/list.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,16 +40,17 @@ const routes = [
       name: 'Welcome',
       component: Welcome
     },
+
     {
       path: '/user/list',
       name: 'Users',
       component: Users
     },
-    {
-      path: '/user/add',
-      name: 'AddUser',
-      component: AddUser
-    },
+    // {
+    //   path: '/user/add',
+    //   name: 'AddUser',
+    //   component: AddUser
+    // },
     {
       path: '/product/list',
       name: 'goodList',
@@ -56,7 +65,32 @@ const routes = [
       path: '/product/edit',
       name: 'editGood',
       component: editGood
-    }
+    },
+    {
+      path: '/order/list',
+      name: 'orderList',
+      component: orderList
+    },
+    {
+      path: '/order/set',
+      name: 'orderSet',
+      component: orderSet
+    },
+    {
+      path: '/category/list',
+      name: 'categoryList',
+      component: categoryList
+    },
+    {
+      path: '/category/add',
+      name: 'categoryAdd',
+      component: categoryAdd
+    },
+    {
+      path: '/category/edit',
+      name: 'categoryEdit',
+      component: categoryEdit
+    },
   ]
   },
   {

@@ -16,7 +16,7 @@ module.exports = {
     proxyTable: {
       '/api/':{
          target: 'http://127.0.0.1:8081/',  // 后台api
-        // target: 'http://www.mall.wast.club:8081/', 
+         //target: 'http://www.mall.wast.club:8081/', 
         changeOrigin: true,  //是否跨域
         pathRewrite: {
           '^/api': '/'

@@ -54,9 +54,13 @@ export const detailGoods = (params) => {
 export const productUpdate = (params) => {
   return http.fetchPut(`${baseUrl}/admin/products/`, params)
 }
-// 获取类目列表
+// 获取类目列表 树型
 export const getCategoryList = (params) => {
   return http.fetchGet(`${baseUrl}/admin/categories`, params)
+}
+// 获取类目列表 表格
+export const getCategoryListTable = (params) => {
+  return http.fetchGet(`${baseUrl}/admin/categoriesAll`, params)
 }
 
 

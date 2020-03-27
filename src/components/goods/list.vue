@@ -7,12 +7,28 @@
             <el-breadcrumb-item>商品列表</el-breadcrumb-item>
         </el-breadcrumb>
          <!-- <el-cascader-panel :options="categoryList"></el-cascader-panel> -->
-      <el-card>
-          
-          <div class="app-container">
-
+      <el-card style="float:left;width:100%">
+          <div style="float:left;width:20%">
+            <div>
+               <el-link type="primary" disabled>类目分类</el-link>
+            </div>
+           <div style="margin-top:20px">
+             <div>
+               <!-- <a type="success" :underline="false" @click="getAllList">全部<i class="el-icon-goods el-icon--right"></i></a> -->
+               <a href="#" @click="getAllList" style="font-size:12px;text-decoration: none;color:green">全部<i class="el-icon-goods"></i></a>
+             </div>
+             <div style="margin-top:10px">
+                <el-tree :data="categoryList" :props="categoryProps" @node-click="handleNodeClick" highlight-current  ></el-tree>
+             </div>
+             
+           </div>
+            
+          </div>
+           
+          <div class="app-container" style="float:left;width:80%">
+             
             <!-- 查询和其他操作 -->
-            <div class="filter-container">
+            <div class="filter-container" >
               <!-- <el-input v-model="listQuery.goodsId" clearable class="filter-item" style="width: 160px;" placeholder="请输入商品ID" />
               <el-input v-model="listQuery.goodsSn" clearable class="filter-item" style="width: 160px;" placeholder="请输入商品编号" /> -->
               <el-input v-model="query" clearable class="filter-item" style="width: 350px;" placeholder="请输入商品名称/商品简介/商品描述" @clear="getList"/>
@@ -20,10 +36,10 @@
               <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
               <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
             </div>
-           
+         
             <!-- 查询结果 -->
-            <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-
+            <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row >
+               
               <el-table-column type="expand" >
                 <template slot-scope="props">
                   <el-form label-position="left" class="table-expand" >
@@ -105,7 +121,7 @@
                 </template>
               </el-table-column>
 
-              <el-table-column align="center" label="是否在售" prop="isOnSale">
+              <el-table-column align="center" label="是否在售" prop="status">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.status===1 ? 'success' : 'error' ">{{ scope.row.status===1 ? '在售' : '下架' }}</el-tag>
                 </template>
@@ -127,7 +143,7 @@
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="currentPage"
-                            :page-sizes="[10, 20, 25, 30]"
+                            :page-sizes="[5, 20, 25, 30]"
                             :page-size="pageSize"
                             layout="total, sizes, prev, pager, next, jumper"
                             :total="total">
@@ -183,7 +199,7 @@ export default {
       query: '',
       categoryId: '',
       currentPage: 1,
-      pageSize: 10,     
+      pageSize: 5,     
       list: [],
       subImages: [],
       total: 0,
@@ -192,6 +208,11 @@ export default {
       detailDialogVisible: false,
       downloadLoading: false,
       categoryList: [],
+      categoryProps:{
+          children: 'children',
+          label: 'label',
+          value: 'value'
+      }
     }
   },
   created() {
@@ -200,6 +221,10 @@ export default {
    
   },
   methods: {
+      handleNodeClick(data) {
+            this.categoryId = data.value
+            this.getList() 
+      },
      //监听 pageSize 改变事件
         handleSizeChange(newSize){
             //console.log(newSize)
@@ -212,19 +237,22 @@ export default {
             this.currentPage = newPage
             this.getList()
         },
+        getAllList(){
+            this.categoryId = ''
+            this.getList()
+        },
      getList() {
       this.listLoading = true
       let params = {
-          
           pageNum: this.currentPage,
           pageSize: this.pageSize,
           categoryId: this.categoryId,
           query: this.query
         }
-        console.log(params)
+        // console.log(params)
       listGoods({params}).then(response => {
         this.list = response.data.list
-        console.log(this.list)
+        //console.log(this.list)
         this.total = response.data.total
         // console.log(this.list.subImages.split(';'))
         // str.split(';'); //以分号拆分字符串

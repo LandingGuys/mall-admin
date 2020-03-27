@@ -6,6 +6,10 @@
         <img src="../assets/logo.png" alt=""  class="head-img">
         <span>智慧药房后台管理系统</span>
       </div>
+      <div style="padding-left: 900px">
+          <a href="#"  @click="toFront" style="color: white;text-decoration: none;">智慧药房商城</a>
+      </div>
+      
       <el-dropdown>
             <span class="el-dropdown-link">
                 <el-avatar :src="userinfo.avatarUrl"></el-avatar>
@@ -72,10 +76,10 @@
                         <span>订单列表</span>
                     </template>
                 </el-menu-item>
-                <el-menu-item index="/order/out">
+                <el-menu-item index="/order/set">
                     <template slot="title">
                         <i class="el-icon-s-check"></i>
-                        <span>退货申请</span>
+                        <span>订单设置</span>
                     </template>
                 </el-menu-item>
             </el-submenu>
@@ -104,13 +108,13 @@
                     <i class="el-icon-menu"></i>
                     <span>类目</span>
                 </template>
-                <el-menu-item index="/ategory/list">
+                <el-menu-item index="/category/list">
                     <template slot="title">
                         <i class="el-icon-menu"></i>
                         <span>类目列表</span>
                     </template>
                 </el-menu-item>
-                <el-menu-item index="/ategory/add">
+                <el-menu-item index="/category/add">
                     <template slot="title">
                         <i class="el-icon-circle-plus"></i>
                         <span>添加类目</span>
@@ -153,6 +157,9 @@ export default {
 
     },
     methods:{
+        toFront(){
+            window.open("http://www.mall.wast.club")
+        },
         logout(){
             loginOut().then(res =>{
                 window.sessionStorage.clear();

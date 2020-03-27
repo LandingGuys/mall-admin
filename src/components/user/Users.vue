@@ -20,21 +20,21 @@
             </el-row>
             <!-- 用户列表区域 -->
             <el-table :data="userlist" border stripe >
-                <el-table-column type="index" label="#"></el-table-column>
-                <el-table-column label="姓名" prop="username"></el-table-column>
-                <el-table-column label="邮箱" prop="email"></el-table-column>
-                <el-table-column label="电话" prop="phone"></el-table-column>
-                <el-table-column label="角色" prop="role" :formatter="roleFormatter"></el-table-column>
-                <el-table-column label="头像">
+                <el-table-column align="center" type="index" label="#"></el-table-column>
+                <el-table-column align="center" label="姓名" prop="username"></el-table-column>
+                <el-table-column align="center" label="邮箱" prop="email"></el-table-column>
+                <el-table-column align="center" label="电话" prop="phone"></el-table-column>
+                <el-table-column align="center" label="角色" prop="role" :formatter="roleFormatter"></el-table-column>
+                <el-table-column align="center" label="头像">
                     <template slot-scope="scope">
                         <el-avatar shape="square" :size="50" :src="scope.row.avatarUrl" ></el-avatar>
                     </template>
                     
                 </el-table-column>
-                <el-table-column label="注册时间" prop="createTime" :formatter="dateFormatter"></el-table-column>
-                <el-table-column label="最后登录" prop="updateTime" :formatter="dateFormatterU"></el-table-column>
+                <el-table-column align="center" label="注册时间" prop="createTime" :formatter="dateFormatter"></el-table-column>
+                <el-table-column align="center" label="最后登录" prop="updateTime" :formatter="dateFormatterU"></el-table-column>
                 <!-- <el-table-column label="状态" prop="role"></el-table-column> -->
-                <el-table-column label="操作" width="190px">
+                <el-table-column align="center" label="操作" width="190px">
                     <template slot-scope="scope">
                             <!-- 修改按钮 -->
                              <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)"></el-button>
