@@ -7,7 +7,7 @@
             <el-breadcrumb-item>类目列表</el-breadcrumb-item>
         </el-breadcrumb>
         <el-card  style="float:left;width:100%">
-            <div style="float:left;width:20%">
+            <div style="float:left;width:15%">
                 <div>
                     <el-link type="primary" disabled>类目分类</el-link>
                 </div>
@@ -20,7 +20,7 @@
                     </div>    
                 </div>    
             </div>
-             <div class="app-container" style="float:left;width:80%">
+             <div class="app-container" style="float:left;width:85%">
                  <!-- 查询和其他操作 -->
                 <div class="filter-container" >
                    
@@ -29,6 +29,16 @@
                     <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
                     <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
                 </div>
+                 <!-- 分页 -->
+                        <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="currentPage"
+                            :page-sizes="[10, 20, 25, 30]"
+                            :page-size="pageSize"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="total">
+                        </el-pagination>
                 <el-table v-loading="listLoading" :data="categoryListTable" element-loading-text="正在查询中。。。" border fit highlight-current-row >
                     <el-table-column align="center" label="类目ID" prop="id" />
 
@@ -46,27 +56,21 @@
 
                     <el-table-column align="center" label="同类展示顺序按数值大小排序,数值相等则自然排序" prop="sortOrder" />
 
-                    <el-table-column align="center"  label="创建时间" prop="createTime" />
+                    <el-table-column align="center"  label="创建时间" width="150" prop="createTime" :formatter="dateFormatter"/>
 
-                    <el-table-column align="center"  label="更新时间" prop="updateTime" />
+                    <el-table-column align="center"  label="更新时间" width="150" prop="updateTime" :formatter="dateFormatterU"/>
 
-                    <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
+                    <el-table-column align="center" label="操作" width="250" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
-                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                         <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                         <el-button type="danger" size="mini" @click="handleSoldOut(scope.row)">下架</el-button>
+                          <el-button type="success" size="mini" @click="handleSoldOn(scope.row)">上架</el-button>
                         </template>
+                        
                     </el-table-column>
                 </el-table>
 
-                 <!-- 分页 -->
-                        <el-pagination
-                            @size-change="handleSizeChange"
-                            @current-change="handleCurrentChange"
-                            :current-page="currentPage"
-                            :page-sizes="[10, 20, 25, 30]"
-                            :page-size="pageSize"
-                            layout="total, sizes, prev, pager, next, jumper"
-                            :total="total">
-                        </el-pagination>
+                
 
                     <el-tooltip placement="top" content="返回顶部">
                     <back-to-top :visibility-height="100" />
@@ -79,7 +83,7 @@
     </div>
 </template>
 <script>
-import { getCategoryList, getCategoryListTable } from '@/api/index.js'
+import { getCategoryList, getCategoryListTable, categoryUpdate } from '@/api/index.js'
 import BackToTop from '@/components/BackToTop'
 export default {
     data(){
@@ -106,6 +110,34 @@ export default {
         this._getCategoryListTable()
     },
     methods:{
+        dateFormatter(row,column){
+             let datetime = row.createTime;
+             if(datetime){
+                datetime = new Date(datetime);
+                let y = datetime.getFullYear() + '-';
+                let mon = datetime.getMonth()+1 + '-';
+                let d = datetime.getDate();
+                let h = datetime.getHours();
+                let m = datetime.getMinutes();
+                let s = datetime.getSeconds();
+                return y + mon + d +" "+h+":"+m+":"+s;
+            }
+        return ''
+        },
+        dateFormatterU(row,column){
+             let datetime = row.updateTime;
+             if(datetime){
+                datetime = new Date(datetime);
+                let y = datetime.getFullYear() + '-';
+                let mon = datetime.getMonth()+1 + '-';
+                let d = datetime.getDate();
+                let h = datetime.getHours();
+                let m = datetime.getMinutes();
+                let s = datetime.getSeconds();
+                return y + mon + d +" "+h+":"+m+":"+s;
+            }
+            return ''
+        },
         async _getCategoryList(){
             const res= await getCategoryList()
             if(res.status !== 0){
@@ -158,6 +190,48 @@ export default {
         },
         handleCreate() {
             this.$router.push({ path: '/category/add' })
+        },
+        handleSoldOut(row){
+            let params={
+                params:{
+                    id: row.id,
+                    status: 2,
+                }
+            }
+            console.log(params.params)
+            categoryUpdate(params.params).then(res =>{
+                this.$notify.success({
+                    title: '成功',
+                    message: '下架成功'
+                    })
+                   this._getCategoryListTable()
+            }).catch(res =>{
+                this.$notify.error({
+                    title: '失败',
+                    message: res.msg
+                    })
+            })
+        },
+        handleSoldOn(row){
+            let params={
+                params:{
+                    id: row.id,
+                    status: 1,
+                }
+            }
+            console.log(params.params)
+            categoryUpdate(params.params).then(res =>{
+                this.$notify.success({
+                    title: '成功',
+                    message: '下架成功'
+                    })
+                   this._getCategoryListTable()
+            }).catch(res =>{
+                this.$notify.error({
+                    title: '失败',
+                    message: res.msg
+                    })
+            })
         },
         handleUpdate(row) {
             this.$router.push({ path: '/category/edit', query: { id: row.id }})

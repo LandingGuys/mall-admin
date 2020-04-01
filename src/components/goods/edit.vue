@@ -222,7 +222,7 @@ export default {
                     detail: this.html
                 }
             }
-            console.log(params);
+            //console.log(params);
             productUpdate(params.params).then(res =>{
                     if(res.status !== 0){
                         return this.$message.error(res.msg)

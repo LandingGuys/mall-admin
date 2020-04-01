@@ -8,7 +8,7 @@
         </el-breadcrumb>
          <!-- <el-cascader-panel :options="categoryList"></el-cascader-panel> -->
       <el-card style="float:left;width:100%">
-          <div style="float:left;width:20%">
+          <div style="float:left;width:10%">
             <div>
                <el-link type="primary" disabled>类目分类</el-link>
             </div>
@@ -25,7 +25,7 @@
             
           </div>
            
-          <div class="app-container" style="float:left;width:80%">
+          <div class="app-container" style="float:left;width:90%">
              
             <!-- 查询和其他操作 -->
             <div class="filter-container" >
@@ -36,7 +36,16 @@
               <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
               <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
             </div>
-         
+              <!-- 分页 -->
+                        <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="currentPage"
+                            :page-sizes="[10, 20, 25, 30]"
+                            :page-size="pageSize"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="total">
+                        </el-pagination>
             <!-- 查询结果 -->
             <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row >
                
@@ -58,16 +67,6 @@
                     <el-form-item label="宣传画廊" >
                       <img v-for="pic in props.row.subImages.split(';')" :key="pic" :src="pic" class="gallery">
                     </el-form-item>
-                   
-                    
-                    <!-- <el-form-item label="关键字">
-                      <span>{{ props.row.keywords }}</span>
-                    </el-form-item> -->
-                    
-                    <!-- <el-form-item label="品牌商ID">
-                      <span>{{ props.row.brandId }}</span>
-                    </el-form-item> -->
-
                   </el-form>
                 </template>
               </el-table-column>
@@ -81,13 +80,6 @@
                   <img :src="scope.row.mainImage" width="40">
                 </template>
               </el-table-column>
-
-              <!-- <el-table-column align="center" property="iconUrl" label="分享图">
-                <template slot-scope="scope">
-                  <img :src="scope.row.shareUrl" width="40">
-                </template>
-              </el-table-column> -->
-
               <el-table-column align="center" label="详情" prop="detail">
                 <template slot-scope="scope">
 
@@ -99,15 +91,13 @@
                         该商品暂无内容数据
                     </div>
                   </el-dialog>
-                  
-
                   <el-button type="primary" size="mini" @click="showDetail(scope.row.detail)">查看</el-button>
                 </template>
               </el-table-column>
 
               <el-table-column align="center" label="市场售价" prop="price" />
 
-              <!-- <el-table-column align="center" label="当前价格" prop="price" /> -->
+              <el-table-column align="center" label="当前库存" prop="stock" />
 
               <el-table-column align="center" label="是否新品" prop="isNew">
                 <template slot-scope="scope">
@@ -126,10 +116,28 @@
                   <el-tag :type="scope.row.status===1 ? 'success' : 'error' ">{{ scope.row.status===1 ? '在售' : '下架' }}</el-tag>
                 </template>
               </el-table-column>
+              <!-- <el-table-column align="center" label="是否在售" prop="status">
+               <template slot-scope="scope">
+                 <el-switch
+                        
+                        style="display: block"
+                        v-model="scope.row.status"
+                        active-color="#13ce66"
+                        inactive-color="#ff4949"
+                        active-text="1"
+                        inactive-text="2">
+                      </el-switch>
+                </template>
+                      
+                
+              </el-table-column> -->
+              
 
-              <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
+              <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
                   <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                  <el-button type="warning" size="mini" @click="handleSoldOut(scope.row)">下架</el-button>
+                  <el-button type="success" size="mini" @click="handleSoldOn(scope.row)">上架</el-button>
                   <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
                 </template>
               </el-table-column>
@@ -138,16 +146,7 @@
               
             </el-table>
 
-            <!-- 分页 -->
-                        <el-pagination
-                            @size-change="handleSizeChange"
-                            @current-change="handleCurrentChange"
-                            :current-page="currentPage"
-                            :page-sizes="[5, 20, 25, 30]"
-                            :page-size="pageSize"
-                            layout="total, sizes, prev, pager, next, jumper"
-                            :total="total">
-                        </el-pagination>
+          
 
             <el-tooltip placement="top" content="返回顶部">
               <back-to-top :visibility-height="100" />
@@ -187,9 +186,9 @@
 
 <script>
 
-import { listGoods, deleteGoods, getCategoryList} from '@/api/index.js'
+import { listGoods, deleteGoods, getCategoryList, productUpdate} from '@/api/index.js'
 import BackToTop from '@/components/BackToTop'
-// import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+
 
 export default {
   name: 'GoodsList',
@@ -199,7 +198,7 @@ export default {
       query: '',
       categoryId: '',
       currentPage: 1,
-      pageSize: 5,     
+      pageSize: 10,     
       list: [],
       subImages: [],
       total: 0,
@@ -212,7 +211,8 @@ export default {
           children: 'children',
           label: 'label',
           value: 'value'
-      }
+      },
+      value: true
     }
   },
   created() {
@@ -249,14 +249,12 @@ export default {
           categoryId: this.categoryId,
           query: this.query
         }
-        // console.log(params)
+       
       listGoods({params}).then(response => {
         this.list = response.data.list
-        //console.log(this.list)
+       
         this.total = response.data.total
-        // console.log(this.list.subImages.split(';'))
-        // str.split(';'); //以分号拆分字符串
-          // this.list.subImages.split(';')
+       
         this.listLoading = false
       }).catch(() => {
         this.list = []
@@ -279,20 +277,72 @@ export default {
       this.goodsDetail = detail
       this.detailDialogVisible = true
     },
+    handleSoldOut(row){
+      let params={
+        params:{
+          id: row.id,
+          status: 2,
+        }
+      }
+       productUpdate(params.params).then(res =>{
+         this.$notify.success({
+              title: '成功',
+              message: '下架成功'
+            })
+            this.getList()
+       }).catch(res =>{
+         this.$notify.error({
+              title: '失败',
+              message: res.msg
+            })
+       })
+    },
+    handleSoldOn(row){
+      let params={
+        params:{
+          id: row.id,
+          status: 1,
+        }
+      }
+       productUpdate(params.params).then(res =>{
+         this.$notify.success({
+              title: '成功',
+              message: '上架成功'
+            })
+            this.getList()
+       }).catch(res =>{
+         this.$notify.error({
+              title: '失败',
+              message: res.msg
+            })
+       })
+    },
     handleDelete(row) {
-      deleteGoods(row).then(response => {
-        this.$notify.success({
-          title: '成功',
-          message: '删除成功'
+       // 弹框 询问用户 是否删除 数据
+            this.$confirm('此操作将永久删除该商品, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+          let params={
+             params:{
+                 id: row.id
+             }     
+         }
+          deleteGoods(params.params).then(res => {
+            this.$notify.success({
+              title: '成功',
+              message: '删除成功'
+            })
+            const index = this.list.indexOf(row)
+            this.list.splice(index, 1)
+          }).catch(res => {
+            this.$notify.error({
+              title: '失败',
+              message: res.msg
+            })
+          })
         })
-        const index = this.list.indexOf(row)
-        this.list.splice(index, 1)
-      }).catch(response => {
-        this.$notify.error({
-          title: '失败',
-          message: response.data.errmsg
-        })
-      })
     },
     handleDownload() {
       this.downloadLoading = true

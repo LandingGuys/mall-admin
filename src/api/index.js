@@ -37,20 +37,21 @@ export const listGoods = (params) => {
 }
 // 删除商品
 export const deleteGoods = (params) => {
-  return http.fetchDelete(`${baseUrl}/admin/products`, params)
+  return http.fetchDelete(`${baseUrl}/admin/products/`+ params.id, params)
 }
 // 上传图片
 export const upload = (params) => {
   return http.fetchUpload(`${baseUrl}/file/upload`, params)
 }
-
+// 新增商品
 export const productAdd = (params) => {
   return http.fetchPost(`${baseUrl}/admin/products`, params)
 }
-
+// 获取商品具体信息
 export const detailGoods = (params) => {
   return http.fetchGet(`${baseUrl}/admin/products/` + params.id, params)
 }
+// 更新商品
 export const productUpdate = (params) => {
   return http.fetchPut(`${baseUrl}/admin/products/`, params)
 }
@@ -62,5 +63,11 @@ export const getCategoryList = (params) => {
 export const getCategoryListTable = (params) => {
   return http.fetchGet(`${baseUrl}/admin/categoriesAll`, params)
 }
-
-
+// 更新类目
+export const categoryUpdate = (params) => {
+  return http.fetchPut(`${baseUrl}/admin/categories`, params)
+}
+// 新增类目
+export const categoryAdd = (params) => {
+  return http.fetchPost(`${baseUrl}/admin/categories`, params)
+}
