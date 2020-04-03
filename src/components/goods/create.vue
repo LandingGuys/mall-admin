@@ -8,7 +8,6 @@
         </el-breadcrumb>
       <el-card>
           <el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm">
-          <!-- <el-form ref="form" :model="form" label-width="80px"> -->
             <el-form-item label="商品名称" prop="name">
                 <el-input v-model="form.name" ></el-input>
             </el-form-item>
@@ -23,14 +22,8 @@
                     :props="{ checkStrictly: true }"
                     @change="handleChange"
                     clearable></el-cascader>
-                <!-- <el-select v-model="form.categoryId" placeholder="请选择类目">
-                <el-option label="类目一" value="shanghai"></el-option>
-                <el-option label="类目二" value="beijing"></el-option>
-                </el-select> -->
             </el-form-item>
             <el-form-item label="商品价格" prop="price">
-                <!-- <MyNumberInput :point="2" :max="99999" placeholder="请输入正常价格" v-model.number="form.price"></MyNumberInput> -->
-                <!-- <el-input placeholder="请输入正常价格" :max="99999" v-model.number="form.price"></el-input> -->
                 <input class="amount-input" size="10" maxlength="6" type="number" placeholder="请输入金额" v-model.number="form.price">
                 <span style="margin-left:10px">元</span>
             </el-form-item>
@@ -38,9 +31,6 @@
                 <el-input placeholder="0~9999" v-model.number="form.stock"></el-input>
                 <span style="margin-left:10px">件</span>
             </el-form-item>
-            <!-- <el-form-item label="商品状态" prop="status">
-                <el-switch v-model="status"></el-switch>
-            </el-form-item> -->
             <el-form-item label="是否上架" prop="status">
                 <el-radio-group v-model="form.status">
                 <el-radio label="上架"></el-radio>
@@ -81,18 +71,7 @@
                         <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
                     </el-upload>
                     </div>
-                    <!-- <el-upload
-                        action="/api/file/upload"
-                        list-type="picture-card"
-                        :on-preview="handlePictureCardPreview"
-                        :on-remove="handleRemove"
-                        :on-success="handleSuccess"
-                        >
-                        <i class="el-icon-plus"></i>                     
-                    </el-upload>
-                    <el-dialog :visible.sync="dialogVisible">
-                        <img width="100%" :src="dialogImageUrl" alt="">
-                    </el-dialog> -->
+                    
                 </el-form-item>
             <el-form-item label="商品详情" >
                 <div id="main">
@@ -120,7 +99,6 @@
 </template>
 <script>
 import { upload , productAdd, getCategoryList} from '@/api/index.js'
-// import MyNumberInput from '../MyNumberInput';
 import BackToTop from '@/components/BackToTop'
 export default {
     data() {
@@ -159,7 +137,7 @@ export default {
                 { type: 'number', message: '库存数量必须为数字值'}
           ],
           status: [
-            { required: true, message: '请选择是否添加热卖', trigger: 'change' }
+            { required: true, message: '请选择是否上下架', trigger: 'change' }
           ],
           isHot: [
             { required: true, message: '请选择是否添加热卖', trigger: 'change' }
@@ -167,9 +145,9 @@ export default {
           isNew: [
             { required: true, message: '请选择是否添加新品', trigger: 'change' }
           ],
-        //   subImages: [
-        //     { required: true, message: '请添加商品图片', trigger: 'change' }
-        //   ],
+          subImages: [
+            { required: true, message: '请添加商品图片', trigger: 'change' }
+          ],
           
         },
         status:'',
@@ -242,7 +220,6 @@ export default {
         this.dialogVisible = true;
       },
       handleSuccess(res, file){
-          console.log(res)
           if(res.status !==0){
             return this.$message.error(res.msg);
           }
@@ -254,10 +231,8 @@ export default {
        var formdata = new FormData();
        formdata.append('file', $file);
         // this.img_file[pos] = $file;
-        
-        
         const res = await upload(formdata)
-        console.log(res)
+        
         if(res.status !==0){
             this.$message.error(res.msg)
         }
@@ -294,7 +269,7 @@ export default {
     },
 
     },
-    mounted (){
+    created (){
         this._getCategoryList()
     },
     watch:{

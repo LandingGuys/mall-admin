@@ -60,18 +60,16 @@
 
                     <el-table-column align="center"  label="更新时间" width="150" prop="updateTime" :formatter="dateFormatterU"/>
 
-                    <el-table-column align="center" label="操作" width="250" class-name="small-padding fixed-width">
+                    <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
                          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-                         <el-button type="danger" size="mini" @click="handleSoldOut(scope.row)">下架</el-button>
                           <el-button type="success" size="mini" @click="handleSoldOn(scope.row)">上架</el-button>
+                          <el-button type="warning" size="mini" @click="handleSoldOut(scope.row)">下架</el-button>
+                          <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
                         </template>
                         
                     </el-table-column>
                 </el-table>
-
-                
-
                     <el-tooltip placement="top" content="返回顶部">
                     <back-to-top :visibility-height="100" />
                     </el-tooltip>
@@ -83,7 +81,7 @@
     </div>
 </template>
 <script>
-import { getCategoryList, getCategoryListTable, categoryUpdate } from '@/api/index.js'
+import { getCategoryList, getCategoryListTable, categoryUpdate, categoryDelete} from '@/api/index.js'
 import BackToTop from '@/components/BackToTop'
 export default {
     data(){
@@ -198,7 +196,6 @@ export default {
                     status: 2,
                 }
             }
-            console.log(params.params)
             categoryUpdate(params.params).then(res =>{
                 this.$notify.success({
                     title: '成功',
@@ -219,11 +216,10 @@ export default {
                     status: 1,
                 }
             }
-            console.log(params.params)
             categoryUpdate(params.params).then(res =>{
                 this.$notify.success({
                     title: '成功',
-                    message: '下架成功'
+                    message: '上架成功'
                     })
                    this._getCategoryListTable()
             }).catch(res =>{
@@ -235,6 +231,33 @@ export default {
         },
         handleUpdate(row) {
             this.$router.push({ path: '/category/edit', query: { id: row.id }})
+        },
+        handleDelete(row){
+            // 弹框 询问用户 是否删除 数据
+            this.$confirm('此操作将永久删除该类目, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+            let params={
+                params:{
+                    id: row.id,
+                }
+            }
+            categoryDelete(params.params).then(res =>{
+                this.$notify.success({
+                    title: '成功',
+                    message: '删除成功'
+                    })
+                   this._getCategoryListTable()
+            }).catch(res =>{
+                this.$notify.error({
+                    title: '失败',
+                    message: res.msg
+                    })
+            })
+         })
+         
         },
         handleDownload() {
             this.downloadLoading = true

@@ -222,7 +222,6 @@ export default {
                     detail: this.html
                 }
             }
-            //console.log(params);
             productUpdate(params.params).then(res =>{
                     if(res.status !== 0){
                         return this.$message.error(res.msg)
@@ -291,7 +290,6 @@ export default {
       },
     async _getCategoryList(){
         const res= await getCategoryList()
-        // console.log(res)
         if(res.status !== 0){
             this.$message.error(res.msg)
         }

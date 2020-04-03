@@ -71,3 +71,11 @@ export const categoryUpdate = (params) => {
 export const categoryAdd = (params) => {
   return http.fetchPost(`${baseUrl}/admin/categories`, params)
 }
+// 获取类目详情
+export const categoryDetail = (params) => {
+  return http.fetchGet(`${baseUrl}/admin/categories/`+ params.id, params)
+}
+// 删除类目
+export const categoryDelete = (params) => {
+  return http.fetchDelete(`${baseUrl}/admin/categories/`+ params.id, params)
+}
