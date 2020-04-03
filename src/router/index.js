@@ -18,6 +18,8 @@ import categoryEdit from '../components/category/edit.vue'
 import categoryAdd from '../components/category/create.vue'
 import categoryList from '../components/category/list.vue'
 
+import ApiManage from '../components/api/manage.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -90,6 +92,11 @@ const routes = [
       path: '/category/edit',
       name: 'categoryEdit',
       component: categoryEdit
+    },
+    {
+      path: '/api/manage',
+      name: 'ApiManage',
+      component: ApiManage
     },
   ]
   },

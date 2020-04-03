@@ -120,11 +120,20 @@
                         <span>添加类目</span>
                     </template>
                 </el-menu-item>
-               
-                
-              
             </el-submenu>
-            
+
+            <el-submenu index="6">
+                <template slot="title">
+                    <i class="el-icon-menu"></i>
+                    <span>接口</span>
+                </template>
+                <el-menu-item index="/api/manage">
+                    <template slot="title">
+                        <i class="el-icon-menu"></i>
+                        <span>接口管理</span>
+                    </template>
+                </el-menu-item>
+            </el-submenu>
             </el-menu>
             
            
