@@ -79,3 +79,19 @@ export const categoryDetail = (params) => {
 export const categoryDelete = (params) => {
   return http.fetchDelete(`${baseUrl}/admin/categories/`+ params.id, params)
 }
+// 获取订单列表
+export const orderList = (params) => {
+  return http.fetchGet(`${baseUrl}/admin/orders`, params)
+}
+// 获取订单详情
+export const orderDetail = (params) => {
+  return http.fetchGet(`${baseUrl}/admin/orders/`+ params.orderNo, params)
+}
+// 取消订单
+export const orderOut = (params) => {
+  return http.fetchPut(`${baseUrl}/admin/orders/`+ params.orderNo, params)
+}
+// 删除订单
+export const orderDelete = (params) => {
+  return http.fetchDelete(`${baseUrl}/admin/orders/`+ params.orderNo, params)
+}

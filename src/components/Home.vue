@@ -124,12 +124,12 @@
 
             <el-submenu index="6">
                 <template slot="title">
-                    <i class="el-icon-menu"></i>
+                    <i class="el-icon-link"></i>
                     <span>接口</span>
                 </template>
                 <el-menu-item index="/api/manage">
                     <template slot="title">
-                        <i class="el-icon-menu"></i>
+                        <i class="el-icon-link"></i>
                         <span>接口管理</span>
                     </template>
                 </el-menu-item>

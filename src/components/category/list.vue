@@ -3,7 +3,7 @@
          <!-- 面包屑导航 -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>类目</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/category/list' }">类目</el-breadcrumb-item>
             <el-breadcrumb-item>类目列表</el-breadcrumb-item>
         </el-breadcrumb>
         <el-card  style="float:left;width:100%">
@@ -250,6 +250,7 @@ export default {
                     message: '删除成功'
                     })
                    this._getCategoryListTable()
+                   this._getCategoryList()
             }).catch(res =>{
                 this.$notify.error({
                     title: '失败',

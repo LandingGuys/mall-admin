@@ -13,6 +13,7 @@ import editGood from '../components/goods/edit.vue'
 
 import orderList from '../components/order/list.vue'
 import orderSet from '../components/order/set.vue'
+import orderDetail from '../components/order/detail.vue'
 
 import categoryEdit from '../components/category/edit.vue'
 import categoryAdd from '../components/category/create.vue'
@@ -72,6 +73,11 @@ const routes = [
       path: '/order/list',
       name: 'orderList',
       component: orderList
+    },
+    {
+      path: '/order/detail',
+      name: 'orderDetail',
+      component: orderDetail
     },
     {
       path: '/order/set',
