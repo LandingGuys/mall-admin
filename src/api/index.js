@@ -95,3 +95,7 @@ export const orderOut = (params) => {
 export const orderDelete = (params) => {
   return http.fetchDelete(`${baseUrl}/admin/orders/`+ params.orderNo, params)
 }
+// 发货
+export const transpAdd = (params) => {
+  return http.fetchPost(`${baseUrl}/admin/transportation`, params)
+}

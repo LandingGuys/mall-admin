@@ -76,9 +76,10 @@
                     <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
                         <template slot-scope="scope">
                         <el-button type="primary" size="mini" @click="handleDetail(scope.row)">查看订单</el-button>
-                        <el-button type="success" size="mini" v-if="scope.row.status == 20" @click="handleSend(scope.row)">发货</el-button>
-                        <el-button type="warning" size="mini" v-if="scope.row.status == 10" @click="handleSoldOut(scope.row)">取消</el-button>
-                        <el-button type="danger" size="mini" v-if="scope.row.status == 0 || scope.row.status == 50 || scope.row.status == 60" @click="handleDelete(scope.row)">删除</el-button>
+                        <el-button type="success" size="mini" v-if="scope.row.status == 20" @click="handleSend(scope.row)">订单发货</el-button>
+                        <el-button type="warning" size="mini" v-if="scope.row.status == 40" @click="handleTrace(scope.row)">订单追踪</el-button>
+                        <el-button type="warning" size="mini" v-if="scope.row.status == 10" @click="handleSoldOut(scope.row)">订单取消</el-button>
+                        <el-button type="danger" size="mini" v-if="scope.row.status == 0 || scope.row.status == 50 || scope.row.status == 60" @click="handleDelete(scope.row)">订单删除</el-button>
                         </template>
                         
                     </el-table-column>
@@ -93,7 +94,7 @@
         </el-card>
         <el-dialog title="发货" :visible.sync="dialogSendVisible">
             <el-form :model="form">
-                
+               
                 <el-form-item label="物流公司" :label-width="formLabelWidth">
                     <el-select v-model="form.transportation" placeholder="请选择物流公司">
                         <el-option label="顺丰快递" value="shunfeng"></el-option>
@@ -110,13 +111,13 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogSendVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogSendVisible = false">确 定</el-button>
+                <el-button type="primary" @click="handleTran">确 定</el-button>
             </div>
         </el-dialog>
     </div>
 </template>
 <script>
-import { orderList, orderOut, orderDelete} from '@/api/index.js'
+import { orderList, orderOut, orderDelete,transpAdd} from '@/api/index.js'
 import BackToTop from '@/components/BackToTop'
 import moment from 'moment'
 export default {
@@ -131,6 +132,7 @@ export default {
             total: 0,  
             dialogSendVisible: false,
             form:{
+                orderNo: '',
                 transportation:'',
                 transportationNo:''
             },
@@ -177,7 +179,7 @@ export default {
                     orderNo: row.orderNo,
                 }
             }
-            console.log(params.params)
+            //console.log(params.params)
             orderOut(params.params).then(res =>{
                 this.$notify.success({
                     title: '成功',
@@ -194,9 +196,31 @@ export default {
         handleDetail(row) {
             this.$router.push({ path: '/order/detail', query: { id: row.id }})
         },
+        handleTrace(row){
+            this.$notify.info({
+                title: "订单追踪",
+                message: "需要对接物流平台，暂未实现此功能！！！"
+            })
+        },
         handleSend(row){
             this.dialogSendVisible = true
-
+            this.form.orderNo = row.orderNo
+        },
+        async handleTran(){
+            let params={
+                params:{
+                    orderNo: this.form.orderNo,
+                    logisticsCa: this.form.transportation,
+                    logisticsNo: this.form.transportationNo
+                }
+            }
+            const res = await transpAdd(params.params)
+            if(res.status !== 0){
+                this.$message.error(res.msg)
+            }
+            this.dialogSendVisible = false
+            this.$message.success("发货成功！！！")
+            this._getOrderList()
         },
         handleDelete(row){
             // 弹框 询问用户 是否删除 数据
