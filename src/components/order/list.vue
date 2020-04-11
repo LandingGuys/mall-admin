@@ -97,12 +97,12 @@
                
                 <el-form-item label="物流公司" :label-width="formLabelWidth">
                     <el-select v-model="form.transportation" placeholder="请选择物流公司">
-                        <el-option label="顺丰快递" value="shunfeng"></el-option>
-                        <el-option label="中通快递" value="zhongtong"></el-option>
-                        <el-option label="圆通快递" value="yuantong"></el-option>
-                        <el-option label="申通快递" value="shentong"></el-option>
-                        <el-option label="韵达快递" value="yunda"></el-option>
-                        <el-option label="中国邮政" value="youzheng"></el-option>
+                        <el-option label="顺丰快递" value="顺丰快递"></el-option>
+                        <el-option label="中通快递" value="中通快递"></el-option>
+                        <el-option label="圆通快递" value="圆通快递"></el-option>
+                        <el-option label="申通快递" value="申通快递"></el-option>
+                        <el-option label="韵达快递" value="韵达快递"></el-option>
+                        <el-option label="中国邮政" value="中国邮政"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="物流单号" :label-width="formLabelWidth">
@@ -194,7 +194,7 @@ export default {
             })
         },
         handleDetail(row) {
-            this.$router.push({ path: '/order/detail', query: { id: row.id }})
+            this.$router.push({ path: '/order/detail', query: { orderId: row.orderNo }})
         },
         handleTrace(row){
             this.$notify.info({

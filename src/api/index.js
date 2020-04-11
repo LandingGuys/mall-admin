@@ -87,6 +87,10 @@ export const orderList = (params) => {
 export const orderDetail = (params) => {
   return http.fetchGet(`${baseUrl}/admin/orders/`+ params.orderNo, params)
 }
+// 更新订单
+export const orderUpdate = (params) => {
+  return http.fetchPut(`${baseUrl}/admin/orders/update`, params)
+}
 // 取消订单
 export const orderOut = (params) => {
   return http.fetchPut(`${baseUrl}/admin/orders/`+ params.orderNo, params)
@@ -98,4 +102,8 @@ export const orderDelete = (params) => {
 // 发货
 export const transpAdd = (params) => {
   return http.fetchPost(`${baseUrl}/admin/transportation`, params)
+}
+// 获取物流信息
+export const transpGet = (params) => {
+  return http.fetchGet(`${baseUrl}/admin/transportation`, params)
 }
